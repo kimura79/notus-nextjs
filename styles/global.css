@@ -1,0 +1,66 @@
+/* /styles/global.css */
+
+/* Import Tailwind base layers */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Global Reset / Normalize Additions --- */
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: theme('fontFamily.sans');
+  background-color: theme('colors.white');
+  color: theme('colors.gray.900');
+  line-height: 1.5;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* --- Basic Elements --- */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- Accessibility --- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Custom Scrollbar (optional) --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 116, 139, 0.5); /* blueGray-500 */
+  border-radius: 4px;
+}
