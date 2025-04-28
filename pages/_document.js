@@ -6,7 +6,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {/* Metadati già presenti */}
+          {/* Metadati esistenti */}
           <meta charSet="utf-8" />
           <meta name="theme-color" content="#000000" />
           <link rel="shortcut icon" href="/img/brand/favicon.ico" />
@@ -16,11 +16,8 @@ class MyDocument extends Document {
             href="/img/brand/apple-icon.png"
           />
 
-          {/* ✅ AGGIUNTO: Link a FontAwesome */}
-          <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            rel="stylesheet"
-          />
+          {/* ✅ Qui il vero caricamento FontAwesome */}
+          <script src="https://kit.fontawesome.com/8b3c8f0d6d.js" crossOrigin="anonymous"></script>
         </Head>
         <body className="text-blueGray-700 antialiased">
           <div id="page-transition"></div>
