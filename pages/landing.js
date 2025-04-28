@@ -3,10 +3,10 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
-import Image from "next/image"; // Aggiunto per gestire immagini al meglio
+import Image from "next/image";
 
 export default function Landing() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
 
   return (
     <>
@@ -17,7 +17,7 @@ export default function Landing() {
           <div
             className="absolute top-0 w-full h-full bg-center bg-cover"
             style={{
-              backgroundImage: "url('https://images.unsplash.com/photo-1612831455543-7226f7283b05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')",
+              backgroundImage: "url('/img/landing.jpg')", // Usa immagine esistente
             }}
           >
             <span id="blackOverlay" className="w-full h-full absolute opacity-75 bg-black"></span>
@@ -39,9 +39,6 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* Features Section */}
-        <section className="pb-20 bg-blueGray-200 -mt-24"> {/* Features ok, non tocco */}</section>
-
         {/* About Section */}
         <section className="relative py-20">
           <div className="container mx-auto px-4">
@@ -59,11 +56,11 @@ export default function Landing() {
               </div>
               <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
                 <Image
-                  alt="About Image"
-                  src="/img/about.jpg" // Immagine statica nella cartella public/img/about.jpg
+                  alt="About"
+                  src="/img/img-1-1000x600.jpg"
                   className="max-w-full rounded-lg shadow-lg"
-                  width={400}
-                  height={300}
+                  width={600}
+                  height={400}
                 />
               </div>
             </div>
@@ -79,11 +76,10 @@ export default function Landing() {
                 <p className="text-lg leading-relaxed m-4 text-blueGray-500">{t('team_subtitle')}</p>
               </div>
             </div>
-            {/* Cards Team opzionale */}
           </div>
         </section>
 
-        {/* CTA finale */}
+        {/* Final CTA */}
         <section className="pb-20 relative block bg-blueGray-800">
           <div className="container mx-auto px-4 lg:pt-24 lg:pb-64">
             <div className="flex flex-wrap text-center justify-center">
@@ -104,23 +100,22 @@ export default function Landing() {
                   <div className="flex-auto p-5 lg:p-10">
                     <h4 className="text-2xl font-semibold">{t('contact_title')}</h4>
                     <p className="leading-relaxed mt-1 mb-4 text-blueGray-500">{t('contact_subtitle')}</p>
-                    <div className="relative w-full mb-3 mt-8">
-                      <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="full-name">Nome Completo</label>
-                      <input type="text" id="full-name" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none w-full" placeholder="Nome Completo" />
-                    </div>
-                    <div className="relative w-full mb-3">
-                      <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="email">Email</label>
-                      <input type="email" id="email" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none w-full" placeholder="Email" />
-                    </div>
-                    <div className="relative w-full mb-3">
-                      <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="message">Messaggio</label>
-                      <textarea id="message" rows="4" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none w-full" placeholder="Scrivi il tuo messaggio..."></textarea>
-                    </div>
-                    <div className="text-center mt-6">
-                      <button className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg focus:outline-none w-full" type="button">
-                        {t('button_send')}
-                      </button>
-                    </div>
+                    <form>
+                      <div className="relative w-full mb-3 mt-8">
+                        <input type="text" placeholder="Nome Completo" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow w-full" />
+                      </div>
+                      <div className="relative w-full mb-3">
+                        <input type="email" placeholder="Email" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow w-full" />
+                      </div>
+                      <div className="relative w-full mb-3">
+                        <textarea rows="4" placeholder="Scrivi il tuo messaggio..." className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow w-full" />
+                      </div>
+                      <div className="text-center mt-6">
+                        <button className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg w-full">
+                          {t('button_send')}
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
