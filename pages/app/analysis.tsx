@@ -1,3 +1,4 @@
+// pages/app/analysis.tsx
 import { useState } from "react";
 import Image from "next/image";
 
@@ -82,44 +83,42 @@ export default function AnalysisPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center">
         {step <= 3 && (
           <>
-            <h1 className="text-2xl font-bold text-center text-blue-700 mb-6">{getUploadLabel()}</h1>
+            <h1 className="text-2xl font-bold text-blue-700 mb-6 text-center">{getUploadLabel()}</h1>
 
-            <div className="flex flex-col items-center mb-4">
+            <div className="w-64 h-64 bg-gray-100 flex items-center justify-center rounded-xl overflow-hidden shadow-md mb-6">
               {previewUrl ? (
                 <Image
                   src={previewUrl}
                   alt="Preview"
-                  width={280}
-                  height={280}
-                  className="rounded-xl object-cover shadow-md"
+                  width={256}
+                  height={256}
+                  className="object-cover"
                 />
               ) : (
-                <div className="w-64 h-64 bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">
-                  {t("no_image_selected")}
-                </div>
+                <span className="text-gray-400">{t("no_image_selected")}</span>
               )}
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col items-center gap-4 w-full">
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
                 className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-blue-50 file:text-blue-700
-                hover:file:bg-blue-100"
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-blue-50 file:text-blue-700
+                  hover:file:bg-blue-100"
               />
 
               <button
                 onClick={handleNext}
                 disabled={!previewUrl}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 disabled:opacity-50"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 disabled:opacity-50"
               >
                 {t("save")} & {t("next")}
               </button>
@@ -128,7 +127,7 @@ export default function AnalysisPage() {
         )}
 
         {step === 4 && (
-          <div className="text-center">
+          <div className="text-center w-full">
             {loading ? (
               <div className="flex flex-col items-center justify-center">
                 <svg className="animate-spin h-10 w-10 text-blue-600 mb-4" viewBox="0 0 24 24">
