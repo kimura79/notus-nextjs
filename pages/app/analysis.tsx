@@ -7,8 +7,7 @@ const t = (key: string) => {
     "upload_left": "Upload 3/4 left photo",
     "upload_right": "Upload 3/4 right photo",
     "choose_photo": "Choose a photo",
-    "save": "Save",
-    "next": "Next",
+    "save_next": "Save & Next",
     "analyzing": "Analyzing...",
     "results_title": "Analysis Results",
     "spots": "Spots",
@@ -16,6 +15,7 @@ const t = (key: string) => {
     "pores": "Pores",
     "texture": "Texture",
     "no_image_selected": "No image selected",
+    "upload_completed": "Upload completed. Analysis started...",
   };
   return translations[key] || key;
 };
@@ -26,11 +26,7 @@ export default function AnalysisPage() {
     front: File | null;
     left: File | null;
     right: File | null;
-  }>({
-    front: null,
-    left: null,
-    right: null,
-  });
+  }>({ front: null, left: null, right: null });
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [results, setResults] = useState<{
     spots: number;
@@ -60,9 +56,10 @@ export default function AnalysisPage() {
 
   const handleNext = () => {
     if (step < 3) {
-      setPreviewUrl(null);
       setStep(step + 1);
+      setPreviewUrl(null);
     } else {
+      // All images uploaded, start fake analysis
       setLoading(true);
       setTimeout(() => {
         setResults({
@@ -72,7 +69,6 @@ export default function AnalysisPage() {
           texture: Math.floor(Math.random() * 100),
         });
         setLoading(false);
-        setStep(4);
       }, 2000);
     }
   };
@@ -85,88 +81,105 @@ export default function AnalysisPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center">
-        {step <= 3 && (
-          <>
-            <h1 className="text-2xl font-bold text-blue-700 mb-6 text-center">{getUploadLabel()}</h1>
+    <div className="flex flex-col min-h-screen bg-gray-100 p-6">
+      {/* Upload Section */}
+      {(!results && !loading) && (
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+          <h2 className="text-2xl font-bold text-blue-700 mb-4 text-center">{getUploadLabel()}</h2>
 
-            <div className="w-64 h-64 bg-gray-100 flex items-center justify-center rounded-xl overflow-hidden shadow-md mb-6">
+          <div className="flex flex-col items-center space-y-4">
+            {/* Preview image */}
+            <div className="w-64 h-64 bg-gray-100 flex items-center justify-center rounded-xl overflow-hidden">
               {previewUrl ? (
-                <Image
-                  src={previewUrl}
-                  alt="Preview"
-                  width={256}
-                  height={256}
-                  className="object-cover"
-                />
+                <Image src={previewUrl} alt="Preview" width={256} height={256} className="object-cover" />
               ) : (
                 <span className="text-gray-400">{t("no_image_selected")}</span>
               )}
             </div>
 
-            <div className="flex flex-col items-center gap-4 w-full">
-              {/* Hidden file input */}
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                onChange={handleImageChange}
-                className="hidden"
-              />
+            {/* File upload hidden */}
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+              className="hidden"
+            />
 
-              {/* Button to trigger file input */}
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-full transition duration-300"
-              >
-                {t("choose_photo")}
-              </button>
+            {/* Button to open file selector */}
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-6 rounded-full transition"
+            >
+              {t("choose_photo")}
+            </button>
 
-              {/* Button Save & Next */}
-              <button
-                onClick={handleNext}
-                disabled={!previewUrl}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 disabled:opacity-50"
-              >
-                {t("save")} & {t("next")}
-              </button>
-            </div>
-          </>
-        )}
-
-        {step === 4 && (
-          <div className="text-center w-full">
-            {loading ? (
-              <div className="flex flex-col items-center justify-center">
-                <svg className="animate-spin h-10 w-10 text-blue-600 mb-4" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                </svg>
-                <div className="text-lg font-semibold text-blue-600">{t("analyzing")}</div>
-              </div>
-            ) : results ? (
-              <>
-                <h1 className="text-2xl font-bold text-blue-700 mb-6">{t("results_title")}</h1>
-                <div className="grid grid-cols-2 gap-4">
-                  {Object.entries(results).map(([key, value]) => (
-                    <div key={key} className="p-4 bg-gray-50 rounded-xl shadow-md">
-                      <div className="text-gray-500 text-sm">{t(key)}</div>
-                      <div className="text-xl font-bold text-blue-700">{value}%</div>
-                      <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-                        <div
-                          className="bg-blue-500 h-2.5 rounded-full"
-                          style={{ width: `${value}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            ) : null}
+            {/* Save & Next button */}
+            <button
+              onClick={handleNext}
+              disabled={!previewUrl}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition disabled:opacity-50"
+            >
+              {t("save_next")}
+            </button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Loading State */}
+      {loading && (
+        <div className="flex flex-col items-center justify-center mt-20">
+          <svg className="animate-spin h-10 w-10 text-blue-600 mb-4" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+          </svg>
+          <div className="text-lg font-semibold text-blue-600">{t("analyzing")}</div>
+        </div>
+      )}
+
+      {/* Results Section */}
+      {results && (
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Front Photo Card */}
+          <div className="bg-white rounded-xl shadow-lg p-6 flex-1 flex flex-col items-center">
+            <h3 className="text-xl font-bold text-blue-700 mb-4">{t("upload_front")}</h3>
+            {images.front ? (
+              <Image
+                src={URL.createObjectURL(images.front)}
+                alt="Front photo"
+                width={300}
+                height={300}
+                className="rounded-lg object-cover"
+              />
+            ) : (
+              <div className="w-64 h-64 bg-gray-200 flex items-center justify-center text-gray-400 rounded-lg">
+                {t("no_image_selected")}
+              </div>
+            )}
+          </div>
+
+          {/* Analysis Card */}
+          <div className="bg-white rounded-xl shadow-lg p-6 flex-1">
+            <h3 className="text-xl font-bold text-blue-700 mb-6">{t("results_title")}</h3>
+            <div className="space-y-6">
+              {Object.entries(results).map(([key, value]) => (
+                <div key={key}>
+                  <div className="flex justify-between mb-1">
+                    <span className="text-sm text-gray-500">{t(key)}</span>
+                    <span className="text-sm font-semibold text-blue-700">{value}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      className="bg-blue-500 h-2.5 rounded-full"
+                      style={{ width: `${value}%` }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
