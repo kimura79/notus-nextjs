@@ -1,0 +1,29 @@
+// components/Elements/Button.js
+export default function Button({
+  children,
+  color = "blue",
+  type = "button",
+  onClick,
+  disabled = false,
+}) {
+  const colorClasses = {
+    blue: "bg-blue-600 hover:bg-blue-700 text-white",
+    lightBlue: "bg-blue-100 hover:bg-blue-200 text-blue-700",
+    red: "bg-red-600 hover:bg-red-700 text-white",
+    green: "bg-green-600 hover:bg-green-700 text-white",
+    gray: "bg-gray-600 hover:bg-gray-700 text-white",
+  };
+
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={`w-full font-bold py-2 px-6 rounded-full transition duration-300 ${
+        colorClasses[color]
+      } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+    >
+      {children}
+    </button>
+  );
+}
