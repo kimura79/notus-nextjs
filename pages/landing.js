@@ -12,14 +12,8 @@ export default function Landing() {
     <>
       <Navbar transparent />
       <main>
-        {/* Hero Section */}
-        <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
-          <div
-            className="absolute top-0 w-full h-full bg-center bg-cover"
-            style={{ backgroundImage: "url('/img/landing.jpg')" }}
-          >
-            <span id="blackOverlay" className="w-full h-full absolute opacity-75 bg-black"></span>
-          </div>
+        {/* Hero Section senza immagine di sfondo */}
+        <div className="relative pt-24 pb-32 flex content-center items-center justify-center min-h-screen-75 bg-blueGray-800">
           <div className="container relative mx-auto">
             <div className="items-center flex flex-wrap">
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
@@ -34,6 +28,7 @@ export default function Landing() {
         <section className="pb-20 bg-blueGray-200 -mt-24">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap">
+              {/* Card 1 */}
               <div className="w-full md:w-4/12 px-4 text-center">
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                   <div className="px-4 py-5 flex-auto">
@@ -45,6 +40,7 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
+              {/* Card 2 */}
               <div className="w-full md:w-4/12 px-4 text-center">
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                   <div className="px-4 py-5 flex-auto">
@@ -56,6 +52,7 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
+              {/* Card 3 */}
               <div className="w-full md:w-4/12 px-4 text-center">
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                   <div className="px-4 py-5 flex-auto">
@@ -104,6 +101,42 @@ export default function Landing() {
               <div className="w-full lg:w-6/12 px-4">
                 <h2 className="text-4xl font-semibold">{t('team_title')}</h2>
                 <p className="text-lg leading-relaxed m-4 text-blueGray-500">{t('team_subtitle')}</p>
+              </div>
+            </div>
+            {/* Team Cards */}
+            <div className="flex flex-wrap">
+              <div className="w-full md:w-4/12 px-4 text-center">
+                <Image
+                  alt="Doctor 1"
+                  src="/img/team-1-800x800.jpg"
+                  className="shadow-lg rounded-full mx-auto mb-4"
+                  width={150}
+                  height={150}
+                />
+                <h5 className="text-xl font-semibold">Dr. Laura Bianchi</h5>
+                <p className="text-blueGray-400">Dermatologa</p>
+              </div>
+              <div className="w-full md:w-4/12 px-4 text-center">
+                <Image
+                  alt="Doctor 2"
+                  src="/img/team-2-800x800.jpg"
+                  className="shadow-lg rounded-full mx-auto mb-4"
+                  width={150}
+                  height={150}
+                />
+                <h5 className="text-xl font-semibold">Dr. Marco Rossi</h5>
+                <p className="text-blueGray-400">Ricercatore AI</p>
+              </div>
+              <div className="w-full md:w-4/12 px-4 text-center">
+                <Image
+                  alt="Doctor 3"
+                  src="/img/team-3-800x800.jpg"
+                  className="shadow-lg rounded-full mx-auto mb-4"
+                  width={150}
+                  height={150}
+                />
+                <h5 className="text-xl font-semibold">Dr.ssa Chiara Verdi</h5>
+                <p className="text-blueGray-400">Specialista Skin Care</p>
               </div>
             </div>
           </div>
