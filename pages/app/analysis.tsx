@@ -1,5 +1,4 @@
-// pages/app/analysis.tsx
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 
 const t = (key: string) => {
@@ -7,6 +6,7 @@ const t = (key: string) => {
     "upload_front": "Upload frontal photo",
     "upload_left": "Upload 3/4 left photo",
     "upload_right": "Upload 3/4 right photo",
+    "choose_photo": "Choose a photo",
     "save": "Save",
     "next": "Next",
     "analyzing": "Analyzing...",
@@ -39,6 +39,8 @@ export default function AnalysisPage() {
     texture: number;
   } | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -104,17 +106,24 @@ export default function AnalysisPage() {
             </div>
 
             <div className="flex flex-col items-center gap-4 w-full">
+              {/* Hidden file input */}
               <input
                 type="file"
                 accept="image/*"
+                ref={fileInputRef}
                 onChange={handleImageChange}
-                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
-                  file:rounded-full file:border-0
-                  file:text-sm file:font-semibold
-                  file:bg-blue-50 file:text-blue-700
-                  hover:file:bg-blue-100"
+                className="hidden"
               />
 
+              {/* Button to trigger file input */}
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-full transition duration-300"
+              >
+                {t("choose_photo")}
+              </button>
+
+              {/* Button Save & Next */}
               <button
                 onClick={handleNext}
                 disabled={!previewUrl}
