@@ -15,7 +15,6 @@ const t = (key: string) => {
     "pores": "Pores",
     "texture": "Texture",
     "no_image_selected": "No image selected",
-    "upload_completed": "Upload completed. Analysis started...",
   };
   return translations[key] || key;
 };
@@ -59,7 +58,6 @@ export default function AnalysisPage() {
       setStep(step + 1);
       setPreviewUrl(null);
     } else {
-      // All images uploaded, start fake analysis
       setLoading(true);
       setTimeout(() => {
         setResults({
@@ -84,41 +82,40 @@ export default function AnalysisPage() {
     <div className="flex flex-col min-h-screen bg-gray-100 p-6">
       {/* Upload Section */}
       {(!results && !loading) && (
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-6 flex flex-col items-center">
           <h2 className="text-2xl font-bold text-blue-700 mb-4 text-center">{getUploadLabel()}</h2>
 
-          <div className="flex flex-col items-center space-y-4">
-            {/* Preview image */}
-            <div className="w-64 h-64 bg-gray-100 flex items-center justify-center rounded-xl overflow-hidden">
-              {previewUrl ? (
-                <Image src={previewUrl} alt="Preview" width={256} height={256} className="object-cover" />
-              ) : (
-                <span className="text-gray-400">{t("no_image_selected")}</span>
-              )}
-            </div>
+          {/* Preview image */}
+          <div className="w-64 h-64 bg-gray-100 flex items-center justify-center rounded-xl overflow-hidden mb-4">
+            {previewUrl ? (
+              <Image src={previewUrl} alt="Preview" width={256} height={256} className="object-cover" />
+            ) : (
+              <span className="text-gray-400">{t("no_image_selected")}</span>
+            )}
+          </div>
 
-            {/* File upload hidden */}
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={handleImageChange}
-              className="hidden"
-            />
+          {/* Hidden input */}
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={handleImageChange}
+            className="hidden"
+          />
 
-            {/* Button to open file selector */}
+          {/* Buttons */}
+          <div className="flex flex-col gap-4 w-full max-w-xs">
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-6 rounded-full transition"
+              className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-full transition"
             >
               {t("choose_photo")}
             </button>
 
-            {/* Save & Next button */}
             <button
               onClick={handleNext}
               disabled={!previewUrl}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition disabled:opacity-50"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition disabled:opacity-50"
             >
               {t("save_next")}
             </button>
@@ -126,7 +123,7 @@ export default function AnalysisPage() {
         </div>
       )}
 
-      {/* Loading State */}
+      {/* Loading Section */}
       {loading && (
         <div className="flex flex-col items-center justify-center mt-20">
           <svg className="animate-spin h-10 w-10 text-blue-600 mb-4" viewBox="0 0 24 24">
@@ -140,7 +137,7 @@ export default function AnalysisPage() {
       {/* Results Section */}
       {results && (
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Front Photo Card */}
+          {/* Front photo */}
           <div className="bg-white rounded-xl shadow-lg p-6 flex-1 flex flex-col items-center">
             <h3 className="text-xl font-bold text-blue-700 mb-4">{t("upload_front")}</h3>
             {images.front ? (
@@ -158,7 +155,7 @@ export default function AnalysisPage() {
             )}
           </div>
 
-          {/* Analysis Card */}
+          {/* Analysis results */}
           <div className="bg-white rounded-xl shadow-lg p-6 flex-1">
             <h3 className="text-xl font-bold text-blue-700 mb-6">{t("results_title")}</h3>
             <div className="space-y-6">
