@@ -82,29 +82,29 @@ export default function AnalysisPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-3xl bg-white rounded-3xl shadow-2xl p-10">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg p-6">
         {step <= 3 && (
           <>
-            <h1 className="text-3xl font-bold text-center text-blue-600 mb-8">{getUploadLabel()}</h1>
+            <h1 className="text-2xl font-bold text-center text-blue-700 mb-6">{getUploadLabel()}</h1>
 
-            <div className="flex flex-col items-center mb-6">
+            <div className="flex flex-col items-center mb-4">
               {previewUrl ? (
                 <Image
                   src={previewUrl}
                   alt="Preview"
-                  width={350}
-                  height={350}
-                  className="rounded-2xl object-cover shadow-lg"
+                  width={280}
+                  height={280}
+                  className="rounded-xl object-cover shadow-md"
                 />
               ) : (
-                <div className="w-72 h-72 bg-gray-200 rounded-2xl flex items-center justify-center text-gray-400">
+                <div className="w-64 h-64 bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">
                   {t("no_image_selected")}
                 </div>
               )}
             </div>
 
-            <div className="flex justify-center mb-6">
+            <div className="flex flex-col gap-4">
               <input
                 type="file"
                 accept="image/*"
@@ -115,13 +115,11 @@ export default function AnalysisPage() {
                 file:bg-blue-50 file:text-blue-700
                 hover:file:bg-blue-100"
               />
-            </div>
 
-            <div className="flex justify-center">
               <button
                 onClick={handleNext}
                 disabled={!previewUrl}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 disabled:opacity-50"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 disabled:opacity-50"
               >
                 {t("save")} & {t("next")}
               </button>
@@ -141,12 +139,12 @@ export default function AnalysisPage() {
               </div>
             ) : results ? (
               <>
-                <h1 className="text-3xl font-bold text-blue-600 mb-8">{t("results_title")}</h1>
-                <div className="grid grid-cols-2 gap-6">
+                <h1 className="text-2xl font-bold text-blue-700 mb-6">{t("results_title")}</h1>
+                <div className="grid grid-cols-2 gap-4">
                   {Object.entries(results).map(([key, value]) => (
-                    <div key={key} className="p-6 bg-gray-50 rounded-2xl shadow-md">
-                      <div className="text-gray-500 text-sm mb-2">{t(key)}</div>
-                      <div className="text-2xl font-bold text-blue-700">{value}%</div>
+                    <div key={key} className="p-4 bg-gray-50 rounded-xl shadow-md">
+                      <div className="text-gray-500 text-sm">{t(key)}</div>
+                      <div className="text-xl font-bold text-blue-700">{value}%</div>
                       <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
                         <div
                           className="bg-blue-500 h-2.5 rounded-full"
