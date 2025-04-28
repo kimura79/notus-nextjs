@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
-import Card from "@/components/Cards/Card"; // Component Card Notus
-import Button from "@/components/Elements/Button"; // Component Button Notus
+import Card from "../../components/Cards/Card"; // ✅ CORRETTO
+import Button from "../../components/Elements/Button"; // ✅ CORRETTO
 import Image from "next/image";
 
 const t = (key: string) => {
