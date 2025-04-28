@@ -1,14 +1,11 @@
 import React from "react";
 import Link from "next/link";
-import { useTranslation } from "next-i18next"; // 🔥 aggiunto
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
-// components
+import { useTranslation } from "next-i18next"; // ✅ Corretta
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
 
 export default function Landing() {
-  const { t } = useTranslation('common'); // 🔥 traduzioni da common.json
+  const { t } = useTranslation('common'); // ✅ Usato correttamente
 
   return (
     <>
@@ -19,8 +16,7 @@ export default function Landing() {
           <div
             className="absolute top-0 w-full h-full bg-center bg-cover"
             style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1612831455543-7226f7283b05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')",
+              backgroundImage: "url('https://images.unsplash.com/photo-1612831455543-7226f7283b05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')",
             }}
           >
             <span id="blackOverlay" className="w-full h-full absolute opacity-75 bg-black"></span>
@@ -96,10 +92,8 @@ export default function Landing() {
                 <h3 className="text-3xl mb-2 font-semibold leading-normal">{t('about_title')}</h3>
                 <p className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">{t('about_subtitle')}</p>
               </div>
-
-              {/* About Image */}
               <div className="w-full md:w-4/12 px-4 mr-auto ml-auto">
-                {/* immagine come già tua */}
+                {/* Qui puoi inserire un'immagine */}
               </div>
             </div>
           </div>
@@ -108,14 +102,13 @@ export default function Landing() {
         {/* Team Section */}
         <section className="pt-20 pb-48">
           <div className="container mx-auto px-4">
-            {/* titolo */}
             <div className="flex flex-wrap justify-center text-center mb-24">
               <div className="w-full lg:w-6/12 px-4">
                 <h2 className="text-4xl font-semibold">{t('team_title')}</h2>
                 <p className="text-lg leading-relaxed m-4 text-blueGray-500">{t('team_subtitle')}</p>
               </div>
             </div>
-            {/* team cards (rimangono) */}
+            {/* Aggiungi qui cards Team se vuoi */}
           </div>
         </section>
 
@@ -140,7 +133,7 @@ export default function Landing() {
                   <div className="flex-auto p-5 lg:p-10">
                     <h4 className="text-2xl font-semibold">{t('contact_title')}</h4>
                     <p className="leading-relaxed mt-1 mb-4 text-blueGray-500">{t('contact_subtitle')}</p>
-                    {/* Form fields rimangono */}
+                    {/* Form di contatto */}
                   </div>
                 </div>
               </div>
@@ -152,13 +145,4 @@ export default function Landing() {
       <Footer />
     </>
   );
-}
-
-// 🔥 IMPORTANTE: funzione per caricare i18n lato server
-export async function getStaticProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'])),
-    },
-  };
 }
