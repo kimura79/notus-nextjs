@@ -1,4 +1,6 @@
-import { useRef, useState } from "react";
+import { useState, useRef } from "react";
+import Card from "@/components/Cards/Card"; // Component Card Notus
+import Button from "@/components/Elements/Button"; // Component Button Notus
 import Image from "next/image";
 
 const t = (key: string) => {
@@ -82,48 +84,42 @@ export default function AnalysisPage() {
     <div className="flex flex-col min-h-screen bg-gray-100 p-6">
       {/* Upload Section */}
       {(!results && !loading) && (
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-6 flex flex-col items-center">
-          <h2 className="text-2xl font-bold text-blue-700 mb-4 text-center">{getUploadLabel()}</h2>
+        <Card>
+          <div className="flex flex-col items-center">
+            <h2 className="text-2xl font-bold text-blue-700 mb-4 text-center">{getUploadLabel()}</h2>
 
-          {/* Preview image */}
-          <div className="w-64 h-64 bg-gray-100 flex items-center justify-center rounded-xl overflow-hidden mb-4">
-            {previewUrl ? (
-              <Image src={previewUrl} alt="Preview" width={256} height={256} className="object-cover" />
-            ) : (
-              <span className="text-gray-400">{t("no_image_selected")}</span>
-            )}
+            {/* Preview image */}
+            <div className="w-64 h-64 bg-gray-100 flex items-center justify-center rounded-xl overflow-hidden mb-4">
+              {previewUrl ? (
+                <Image src={previewUrl} alt="Preview" width={256} height={256} className="object-cover" />
+              ) : (
+                <span className="text-gray-400">{t("no_image_selected")}</span>
+              )}
+            </div>
+
+            {/* Hidden file input */}
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+              className="hidden"
+            />
+
+            {/* Buttons */}
+            <div className="flex flex-col gap-4 w-full max-w-xs">
+              <Button color="lightBlue" type="button" onClick={() => fileInputRef.current?.click()}>
+                {t("choose_photo")}
+              </Button>
+              <Button color="blue" type="button" onClick={handleNext} disabled={!previewUrl}>
+                {t("save_next")}
+              </Button>
+            </div>
           </div>
-
-          {/* Hidden input */}
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            onChange={handleImageChange}
-            className="hidden"
-          />
-
-          {/* Buttons */}
-          <div className="flex flex-col gap-4 w-full max-w-xs">
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-full transition"
-            >
-              {t("choose_photo")}
-            </button>
-
-            <button
-              onClick={handleNext}
-              disabled={!previewUrl}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition disabled:opacity-50"
-            >
-              {t("save_next")}
-            </button>
-          </div>
-        </div>
+        </Card>
       )}
 
-      {/* Loading Section */}
+      {/* Loading Spinner */}
       {loading && (
         <div className="flex flex-col items-center justify-center mt-20">
           <svg className="animate-spin h-10 w-10 text-blue-600 mb-4" viewBox="0 0 24 24">
@@ -136,45 +132,49 @@ export default function AnalysisPage() {
 
       {/* Results Section */}
       {results && (
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Front photo */}
-          <div className="bg-white rounded-xl shadow-lg p-6 flex-1 flex flex-col items-center">
-            <h3 className="text-xl font-bold text-blue-700 mb-4">{t("upload_front")}</h3>
-            {images.front ? (
-              <Image
-                src={URL.createObjectURL(images.front)}
-                alt="Front photo"
-                width={300}
-                height={300}
-                className="rounded-lg object-cover"
-              />
-            ) : (
-              <div className="w-64 h-64 bg-gray-200 flex items-center justify-center text-gray-400 rounded-lg">
-                {t("no_image_selected")}
-              </div>
-            )}
-          </div>
-
-          {/* Analysis results */}
-          <div className="bg-white rounded-xl shadow-lg p-6 flex-1">
-            <h3 className="text-xl font-bold text-blue-700 mb-6">{t("results_title")}</h3>
-            <div className="space-y-6">
-              {Object.entries(results).map(([key, value]) => (
-                <div key={key}>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-sm text-gray-500">{t(key)}</span>
-                    <span className="text-sm font-semibold text-blue-700">{value}%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div
-                      className="bg-blue-500 h-2.5 rounded-full"
-                      style={{ width: `${value}%` }}
-                    ></div>
-                  </div>
+        <div className="flex flex-col lg:flex-row gap-6 mt-6">
+          {/* Front photo card */}
+          <Card>
+            <div className="flex flex-col items-center">
+              <h3 className="text-xl font-bold text-blue-700 mb-4">{t("upload_front")}</h3>
+              {images.front ? (
+                <Image
+                  src={URL.createObjectURL(images.front)}
+                  alt="Front photo"
+                  width={300}
+                  height={300}
+                  className="rounded-lg object-cover"
+                />
+              ) : (
+                <div className="w-64 h-64 bg-gray-200 flex items-center justify-center text-gray-400 rounded-lg">
+                  {t("no_image_selected")}
                 </div>
-              ))}
+              )}
             </div>
-          </div>
+          </Card>
+
+          {/* Analysis results card */}
+          <Card>
+            <div className="flex flex-col">
+              <h3 className="text-xl font-bold text-blue-700 mb-6">{t("results_title")}</h3>
+              <div className="space-y-6">
+                {Object.entries(results).map(([key, value]) => (
+                  <div key={key}>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-sm text-gray-500">{t(key)}</span>
+                      <span className="text-sm font-semibold text-blue-700">{value}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                      <div
+                        className="bg-blue-500 h-2.5 rounded-full"
+                        style={{ width: `${value}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Card>
         </div>
       )}
     </div>
