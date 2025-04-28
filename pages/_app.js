@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import App from "next/app";
 import Head from "next/head";
 import Router from "next/router";
+import { appWithTranslation } from "next-i18next"; // << IMPORTANTE
 
 import PageChange from "components/PageChange/PageChange.js";
 
@@ -26,10 +27,9 @@ Router.events.on("routeChangeError", () => {
   document.body.classList.remove("body-page-transition");
 });
 
-export default class MyApp extends App {
+class MyApp extends App {
   componentDidMount() {
     let comment = document.createComment(`
-
 =========================================================
 * Notus NextJS - v1.1.0 based on Tailwind Starter Kit by Creative Tim
 =========================================================
@@ -43,13 +43,11 @@ export default class MyApp extends App {
 * Coded by Creative Tim
 
 =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
 `);
     document.insertBefore(comment, document.documentElement);
   }
-  static async getInitialProps({ Component, router, ctx }) {
+
+  static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
 
     if (Component.getInitialProps) {
@@ -58,9 +56,9 @@ export default class MyApp extends App {
 
     return { pageProps };
   }
+
   render() {
     const { Component, pageProps } = this.props;
-
     const Layout = Component.layout || (({ children }) => <>{children}</>);
 
     return (
@@ -70,7 +68,7 @@ export default class MyApp extends App {
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
-          <title>Notus NextJS by Creative Tim</title>
+          <title>Epidermys - Analisi della Pelle con AI</title> {/* << ho aggiornato il titolo! */}
           <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
         </Head>
         <Layout>
@@ -80,3 +78,5 @@ export default class MyApp extends App {
     );
   }
 }
+
+export default appWithTranslation(MyApp); // << QUI è fondamentale
